@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UG Navigate - Smart Campus Navigation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #153D70;
+            --primary-dark: #153D70;
+            --secondary: #ff6b6b;
+            --accent: #6bff8f;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --glass-bg: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://student.oslomet.no/documents/portlet_file_entry/10195/University+of+Ghana.jpg/e3c371a8-9934-9f58-a51a-9274dab25fc0') center/cover no-repeat;
+            opacity: 0.7;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            margin-top: -50px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: var(--transition);
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .card-header i {
+            font-size: 1.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Algorithm Selector */
+        .algorithm-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .algorithm-option {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 500;
+            background-color: white;
+        }
+
+        .algorithm-option:hover {
+            border-color: var(--primary);
+        }
+
+        .algorithm-option.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Results Panel */
+        .results-panel {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .results-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .results-panel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .results-panel::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .route-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .route-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .route-card.active {
+            border-left-color: var(--accent);
+            background-color: #f8f9ff;
+        }
+
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .route-title {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .route-stats {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .route-path {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .landmarks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .landmark-tag {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Map Container */
+        .map-container {
+            position: relative;
+            height: 600px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .campus-map {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f4ff;
+            position: relative;
+        }
+
+        .map-node {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 3px solid white;
+            box-shadow: var(--shadow-sm);
+            z-index: 2;
+        }
+
+        .map-node:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+            box-shadow: 0 0 0 4px rgba(74, 107, 255, 0.3);
+        }
+
+        .map-node.landmark {
+            background-color: var(--secondary);
+            width: 20px;
+            height: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .map-node.selected {
+            background-color: var(--accent);
+            width: 24px;
+            height: 24px;
+            box-shadow: 0 0 0 6px rgba(107, 255, 143, 0.3);
+        }
+
+        .map-edge {
+            position: absolute;
+            height: 3px;
+            background-color: rgba(74, 107, 255, 0.3);
+            transform-origin: left center;
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        .map-edge.route-path {
+            background-color: var(--secondary);
+            height: 5px;
+            z-index: 3;
+            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+        }
+
+        .node-label {
+            position: absolute;
+            font-size: 0.8rem;
+            background-color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+            font-weight: 500;
+            color: var(--dark);
+            box-shadow: var(--shadow-sm);
+            z-index: 4;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .map-node:hover + .node-label {
+            opacity: 1;
+        }
+
+        /* Stats Panel */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+            border: none;
+        }
+
+        .fab:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                height: 300px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .map-container {
+                height: 400px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .algorithm-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="welcome-badge">Welcome on Campus, dear Students!</span>
+            <h1>UG Navigate</h1>
+            <p>Your smart companion for finding the best routes across the University of Ghana campus</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="grid">
+            <!-- Control Panel -->
+            <div class="card fade-in">
+                <div class="card-header">
+                    <h2><i class="fas fa-route"></i> Route Finder</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="startLocation">Start Location</label>
+                        <select id="startLocation" class="form-control">
+                            <option value="">Select starting point...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endLocation">Destination</label>
+                        <select id="endLocation" class="form-control">
+                            <option value="">Select destination...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="landmarkFilter">Landmark Preference</label>
+                        <select id="landmarkFilter" class="form-control">
+                            <option value="">No preference</option>
+                            <option value="Bank">Pass by Bank</option>
+                            <option value="Canteen">Pass by Canteen</option>
+                            <option value="Library">Pass by Library</option>
+                            <option value="Gate">Pass by Gate</option>
+                            <option value="Lecture Hall">Pass by Lecture Hall</option>
+                            <option value="Sports">Pass by Sports Complex</option>
+                            <option value="Medical">Pass by Medical Center</option>
+                            <option value="Hostel">Pass by Hostel</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Optimization Method</label>
+                        <div class="algorithm-selector">
+                            <div class="algorithm-option active" data-opt="distance">
+                                <i class="fas fa-ruler"></i> Shortest Distance
+                            </div>
+                            <div class="algorithm-option" data-opt="time">
+                                <i class="fas fa-stopwatch"></i> Fastest Time
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="findRoutesBtn" class="btn btn-primary btn-block">
+                        <i class="fas fa-search"></i> Find Routes
+                    </button>
+                    
+                    <div class="results-panel" id="resultsPanel">
+                        <p style="color: var(--gray); text-align: center; font-style: italic; padding: 1rem;">
+                            Select start and end locations to find optimal routes
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Map Panel -->
+            <div class="card fade-in delay-1">
+                <div class="card-header">
+                    <h2><i class="fas fa-map-marked-alt"></i> Campus Map</h2>
+                </div>
+                <div class="map-container">
+                    <div class="campus-map" id="campusMap">
+                        <!-- Map will be dynamically generated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Panel -->
+        <div class="stats-grid fade-in delay-2">
+            <div class="stat-card">
+                <div class="stat-value" id="totalNodes">0</div>
+                <div class="stat-label">Campus Locations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalEdges">0</div>
+                <div class="stat-label">Pathways</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="queryTime">0</div>
+                <div class="stat-label">Query Time (ms)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="routesFound">0</div>
+                <div class="stat-label">Routes Found</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="helpFab" title="Quick Help">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <script>
+        // Enhanced Campus Graph Data Structure
+        class Graph {
+            constructor() {
+                this.nodes = new Map();
+                this.edges = new Map();
+                this.landmarks = new Map();
+            }
+
+            addNode(id, name, x, y, type = 'building', landmarks = []) {
+                this.nodes.set(id, { id, name, x, y, type, landmarks });
+                if (!this.edges.has(id)) {
+                    this.edges.set(id, []);
+                }
+                
+                // Track landmarks
+                landmarks.forEach(landmark => {
+                    if (!this.landmarks.has(landmark)) {
+                        this.landmarks.set(landmark, []);
+                    }
+                    this.landmarks.get(landmark).push(id);
+                });
+            }
+
+            addEdge(from, to, distance, time = null) {
+                if (!this.edges.has(from)) this.edges.set(from, []);
+                if (!this.edges.has(to)) this.edges.set(to, []);
+                
+                const edgeTime = time || distance * 1.2; // Improved walking time estimate
+                this.edges.get(from).push({ to, distance, time: edgeTime });
+                this.edges.get(to).push({ to: from, distance, time: edgeTime });
+            }
+
+            getNeighbors(nodeId) {
+                return this.edges.get(nodeId) || [];
+            }
+        }
+
+        // Advanced Algorithm Implementations
+        class RoutingAlgorithms {
+            static dijkstra(graph, start, end, optimize = 'distance') {
+                const distances = new Map();
+                const previous = new Map();
+                const visited = new Set();
+                const pq = [];
+
+                // Initialize
+                graph.nodes.forEach((node, id) => {
+                    distances.set(id, id === start ? 0 : Infinity);
+                    previous.set(id, null);
+                });
+
+                pq.push({ node: start, distance: 0 });
+
+                while (pq.length > 0) {
+                    pq.sort((a, b) => a.distance - b.distance);
+                    const { node: current } = pq.shift();
+
+                    if (visited.has(current)) continue;
+                    visited.add(current);
+
+                    if (current === end) break;
+
+                    const neighbors = graph.getNeighbors(current);
+                    neighbors.forEach(edge => {
+                        const weight = optimize === 'time' ? edge.time : edge.distance;
+                        const newDistance = distances.get(current) + weight;
+
+                        if (newDistance < distances.get(edge.to)) {
+                            distances.set(edge.to, newDistance);
+                            previous.set(edge.to, current);
+                            pq.push({ node: edge.to, distance: newDistance });
+                        }
+                    });
+                }
+
+                return this.reconstructPath(previous, start, end, distances);
+            }
+
+            static astar(graph, start, end, optimize = 'distance') {
+                const gScore = new Map();
+                const fScore = new Map();
+                const previous = new Map();
+                const openSet = [];
+                const closedSet = new Set();
+
+                // Enhanced heuristic function
+                const heuristic = (from, to) => {
+                    const fromNode = graph.nodes.get(from);
+                    const toNode = graph.nodes.get(to);
+                    const euclidean = Math.sqrt(
+                        Math.pow(toNode.x - fromNode.x, 2) +
+                        Math.pow(toNode.y - fromNode.y, 2)
+                    );
+                    return optimize === 'time' ? euclidean * 1.2 : euclidean;
+                };
+
+                graph.nodes.forEach((_, id) => {
+                    gScore.set(id, id === start ? 0 : Infinity);
+                    fScore.set(id, id === start ? heuristic(start, end) : Infinity);
+                    previous.set(id, null);
+                });
+
+                openSet.push({ node: start, fScore: heuristic(start, end) });
+
+                while (openSet.length > 0) {
+                    openSet.sort((a, b) => a.fScore - b.fScore);
+                    const { node: current } = openSet.shift();
+
+                    if (current === end) {
+                        return this.reconstructPath(previous, start, end, gScore);
+                    }
+
+                    closedSet.add(current);
+
+                    const neighbors = graph.getNeighbors(current);
+                    neighbors.forEach(edge => {
+                        if (closedSet.has(edge.to)) return;
+
+                        const weight = optimize === 'time' ? edge.time : edge.distance;
+                        const tentativeGScore = gScore.get(current) + weight;
+
+                        if (tentativeGScore < gScore.get(edge.to)) {
+                            previous.set(edge.to, current);
+                            gScore.set(edge.to, tentativeGScore);
+                            fScore.set(edge.to, tentativeGScore + heuristic(edge.to, end));
+
+                            if (!openSet.some(item => item.node === edge.to)) {
+                                openSet.push({ node: edge.to, fScore: fScore.get(edge.to) });
+                            }
+                        }
+                    });
+                }
+
+                return null;
+            }
+
+            static greedy(graph, start, end, optimize = 'distance') {
+                const visited = new Set();
+                const path = [start];
+                let current = start;
+
+                while (current !== end && !visited.has(current)) {
+                    visited.add(current);
+                    const neighbors = graph.getNeighbors(current);
+                    if (neighbors.length === 0) break;
+
+                    let best = null;
+                    let bestScore = Infinity;
+
+                    neighbors.forEach(edge => {
+                        if (visited.has(edge.to)) return;
+
+                        const endNode = graph.nodes.get(end);
+                        const neighborNode = graph.nodes.get(edge.to);
+                        const distanceToEnd = Math.sqrt(
+                            Math.pow(endNode.x - neighborNode.x, 2) +
+                            Math.pow(endNode.y - neighborNode.y, 2)
+                        );
+
+                        if (distanceToEnd < bestScore) {
+                            bestScore = distanceToEnd;
+                            best = edge;
+                        }
+                    });
+
+                    if (!best) break;
+                    current = best.to;
+                    path.push(current);
+                }
+
+                if (current === end) {
+                    return {
+                        path,
+                        distance: this.calculatePathDistance(graph, path, optimize),
+                        found: true
+                    };
+                }
+
+                return null;
+            }
+
+            static reconstructPath(previous, start, end, distances) {
+                const path = [];
+                let current = end;
+
+                while (current !== null) {
+                    path.unshift(current);
+                    current = previous.get(current);
+                }
+
+                if (path[0] !== start) return null;
+
+                return {
+                    path,
+                    distance: distances.get(end),
+                    found: true
+                };
+            }
+
+            static calculatePathDistance(graph, path, optimize) {
+                let total = 0;
+                for (let i = 0; i < path.length - 1; i++) {
+                    const neighbors = graph.getNeighbors(path[i]);
+                    const edge = neighbors.find(e => e.to === path[i + 1]);
+                    if (edge) {
+                        total += optimize === 'time' ? edge.time : edge.distance;
+                    }
+                }
+                return total;
+            }
+        }
+
+        // Initialize enhanced campus data
+        const campus = new Graph();
+        let selectedAlgorithm = 'dijkstra';
+        let selectedOptimization = 'distance';
+        let currentRoutes = [];
+
+        // Comprehensive UG Campus data with more landmarks and locations
+        function initializeCampusData() {
+            // Main Academic Buildings
+            campus.addNode(1, 'Main Gate', 100, 120, 'gate', ['Gate']);
+            campus.addNode(2, 'Administration Block', 220, 160, 'building', ['Admin']);
+            campus.addNode(3, 'Great Hall', 320, 200, 'building', ['Hall']);
+            campus.addNode(4, 'Balme Library', 180, 280, 'building', ['Library']);
+            campus.addNode(5, 'Engineering Block', 420, 180, 'building', ['Engineering']);
+            campus.addNode(6, 'Science Block', 380, 320, 'building', ['Lab']);
+            campus.addNode(7, 'Students Union (JCR)', 280, 300, 'building', ['Union']);
+            campus.addNode(8, 'Main Canteen', 320, 380, 'building', ['Canteen']);
+            campus.addNode(9, 'Sports Complex', 480, 380, 'building', ['Sports']);
+            campus.addNode(10, 'University Hospital', 140, 380, 'building', ['Medical']);
+            
+            // Financial and Administrative Services
+            campus.addNode(11, 'GCB Bank', 240, 200, 'building', ['Bank']);
+            campus.addNode(12, 'Lecture Theatre Block A', 340, 260, 'building', ['Lecture Hall']);
+            campus.addNode(13, 'Lecture Theatre Block B', 400, 270, 'building', ['Lecture Hall']);
+            campus.addNode(14, 'Car Park A (Visitors)', 120, 220, 'parking', []);
+            campus.addNode(15, 'Car Park B (Staff)', 500, 320, 'parking', []);
+            
+            // Additional Gates and Entry Points
+            campus.addNode(16, 'North Gate (Okponglo)', 320, 50, 'gate', ['Gate']);
+            campus.addNode(17, 'East Gate (37)', 530, 280, 'gate', ['Gate']);
+            campus.addNode(18, 'Commonwealth Hall', 80, 420, 'building', ['Hostel']);
+            campus.addNode(19, 'IT Directorate', 440, 220, 'building', ['IT']);
+            campus.addNode(20, 'Memorial Chapel', 260, 130, 'building', ['Chapel']);
+            
+            // Academic Faculties and Departments
+            campus.addNode(21, 'School of Business', 200, 340, 'building', ['Business']);
+            campus.addNode(22, 'School of Law', 160, 300, 'building', ['Law']);
+            campus.addNode(23, 'School of Medicine', 120, 340, 'building', ['Medical']);
+            campus.addNode(24, 'Language Centre', 300, 140, 'building', ['Language']);
+            campus.addNode(25, 'Psychological Medicine', 180, 200, 'building', ['Medical']);
+            
+            // Student Facilities
+            campus.addNode(26, 'Night Market', 360, 420, 'building', ['Canteen']);
+            campus.addNode(27, 'Volta Hall', 60, 460, 'building', ['Hostel']);
+            campus.addNode(28, 'Legon Hall', 520, 420, 'building', ['Hostel']);
+            campus.addNode(29, 'Security Post (Main)', 140, 140, 'security', ['Security']);
+            campus.addNode(30, 'Fire Service Station', 460, 140, 'security', ['Security']);
+            
+            // Research and Special Centers
+            campus.addNode(31, 'Institute of Statistical Research', 340, 100, 'building', ['Research']);
+            campus.addNode(32, 'Computer Science Department', 460, 200, 'building', ['IT']);
+
+            // Enhanced pathway network with realistic distances and walking times
+            
+            // Main entrance connections
+            campus.addEdge(1, 2, 150, 120);  // Main Gate to Admin
+            campus.addEdge(1, 29, 80, 60);   // Main Gate to Security
+            campus.addEdge(1, 14, 90, 70);   // Main Gate to Visitor Parking
+            
+            // Administrative area connections
+            campus.addEdge(2, 3, 120, 90);   // Admin to Great Hall
+            campus.addEdge(2, 11, 85, 65);   // Admin to Bank
+            campus.addEdge(2, 25, 110, 85);  // Admin to Psychological Medicine
+            campus.addEdge(11, 20, 95, 75);  // Bank to Chapel
+            
+            // Academic core connections
+            campus.addEdge(3, 4, 140, 110);  // Great Hall to Library
+            campus.addEdge(3, 5, 180, 140);  // Great Hall to Engineering
+            campus.addEdge(3, 24, 75, 60);   // Great Hall to Language Centre
+            campus.addEdge(4, 7, 110, 85);   // Library to Union
+            campus.addEdge(4, 22, 95, 75);   // Library to Law School
+            campus.addEdge(4, 21, 85, 65);   // Library to Business School
+            
+            // Engineering and Science area
+            campus.addEdge(5, 6, 160, 125);  // Engineering to Science
+            campus.addEdge(5, 19, 90, 70);   // Engineering to IT Directorate
+            campus.addEdge(5, 32, 85, 65);   // Engineering to Computer Science
+            campus.addEdge(5, 30, 75, 60);   // Engineering to Fire Station
+            campus.addEdge(6, 13, 95, 75);   // Science to Lecture B
+            campus.addEdge(12, 13, 80, 60);  // Lecture A to Lecture B
+            
+            // Student life area
+            campus.addEdge(7, 8, 105, 80);   // Union to Main Canteen
+            campus.addEdge(7, 21, 90, 70);   // Union to Business School
+            campus.addEdge(8, 9, 140, 110);  // Canteen to Sports Complex
+            campus.addEdge(8, 26, 80, 60);   // Main Canteen to Night Market
+            campus.addEdge(9, 28, 85, 65);   // Sports to Legon Hall
+            campus.addEdge(9, 15, 70, 55);   // Sports to Staff Parking
+            
+            // Medical and health area
+            campus.addEdge(10, 18, 90, 70);  // Hospital to Commonwealth Hall
+            campus.addEdge(10, 23, 75, 60);  // Hospital to Medical School
+            campus.addEdge(10, 27, 85, 65);  // Hospital to Volta Hall
+            campus.addEdge(23, 22, 95, 75);  // Medical School to Law School
+            
+            // Northern area connections
+            campus.addEdge(16, 20, 80, 60);  // North Gate to Chapel
+            campus.addEdge(16, 31, 70, 55);  // North Gate to Statistical Research
+            campus.addEdge(20, 24, 85, 65);  // Chapel to Language Centre
+            campus.addEdge(31, 24, 90, 70);  // Research to Language Centre
+            
+            // Eastern connections
+            campus.addEdge(17, 32, 110, 85); // East Gate to Computer Science
+            campus.addEdge(17, 19, 120, 95); // East Gate to IT Directorate
+            campus.addEdge(17, 15, 75, 60);  // East Gate to Staff Parking
+            campus.addEdge(19, 13, 85, 65);  // IT to Lecture B
+            campus.addEdge(32, 30, 95, 75);  // Computer Science to Fire Station
+            
+            // Cross-campus connections
+            campus.addEdge(14, 25, 95, 75);  // Visitor Parking to Psychological Medicine
+            campus.addEdge(22, 25, 70, 55);  // Law to Psychological Medicine
+            campus.addEdge(18, 27, 65, 50);  // Commonwealth to Volta Hall
+            campus.addEdge(26, 28, 180, 140); // Night Market to Legon Hall
+            
+            // Additional strategic connections for better routing
+            campus.addEdge(12, 7, 95, 75);   // Lecture A to Union
+            campus.addEdge(6, 9, 130, 100);  // Science to Sports (direct path)
+            campus.addEdge(21, 8, 75, 60);   // Business to Canteen
+            campus.addEdge(29, 14, 60, 45);  // Security to Visitor Parking
+        }
+
+        // Enhanced UI initialization
+        function initializeUI() {
+            const startSelect = document.getElementById('startLocation');
+            const endSelect = document.getElementById('endLocation');
+
+            // Sort locations alphabetically for better UX
+            const sortedNodes = Array.from(campus.nodes.values()).sort((a, b) => a.name.localeCompare(b.name));
+            
+            sortedNodes.forEach(node => {
+                const option1 = document.createElement('option');
+                option1.value = node.id;
+                option1.textContent = node.name;
+                startSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = node.id;
+                option2.textContent = node.name;
+                endSelect.appendChild(option2);
+            });
+
+            renderMap();
+            
+            // Algorithm selector
+            document.querySelectorAll('.algorithm-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.algorithm-option').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedOptimization = this.dataset.opt;
+                });
+            });
+
+            // Find routes button
+            document.getElementById('findRoutesBtn').addEventListener('click', findRoutes);
+
+            // Help FAB
+            document.getElementById('helpFab').addEventListener('click', () => {
+                showNotification('Click on map nodes or use dropdowns to select locations. Then click "Find Routes"', 'info');
+            });
+        }
+
+        // Enhanced map rendering with improved visuals
+        function renderMap() {
+            const mapElement = document.getElementById('campusMap');
+            mapElement.innerHTML = '';
+
+            // Render edges first (so they appear behind nodes)
+            campus.edges.forEach((neighbors, nodeId) => {
+                const fromNode = campus.nodes.get(nodeId);
+                neighbors.forEach(edge => {
+                    const toNode = campus.nodes.get(edge.to);
+                    if (nodeId < edge.to) { // Avoid duplicate edges
+                        renderEdge(mapElement, fromNode, toNode);
+                    }
+                });
+            });
+
+            // Render nodes with enhanced styling
+            campus.nodes.forEach(node => {
+                renderNode(mapElement, node);
+            });
+        }
+
+        function renderNode(container, node) {
+            const nodeElement = document.createElement('div');
+            nodeElement.className = 'map-node';
+            nodeElement.style.left = node.x + 'px';
+            nodeElement.style.top = node.y + 'px';
+            
+            if (node.landmarks.length > 0) {
+                nodeElement.classList.add('landmark');
+            }
+            
+            nodeElement.title = `${node.name} - ${node.landmarks.join(', ') || 'General Location'}`;
+            nodeElement.onclick = () => selectNode(node.id);
+
+            const label = document.createElement('div');
+            label.className = 'node-label';
+            label.textContent = node.name;
+            label.style.left = (node.x + 15) + 'px';
+            label.style.top = (node.y - 20) + 'px';
+
+            container.appendChild(nodeElement);
+            container.appendChild(label);
+        }
+
+        function renderEdge(container, fromNode, toNode) {
+            const edge = document.createElement('div');
+            edge.className = 'map-edge';
+            
+            const dx = toNode.x - fromNode.x;
+            const dy = toNode.y - fromNode.y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx);
+
+            edge.style.left = fromNode.x + 'px';
+            edge.style.top = fromNode.y + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+
+            container.appendChild(edge);
+        }
+
+        function selectNode(nodeId) {
+            const startSelect = document.getElementById('startLocation');
+            const endSelect = document.getElementById('endLocation');
+
+            if (!startSelect.value) {
+                startSelect.value = nodeId;
+                animateSelect(startSelect);
+            } else if (!endSelect.value) {
+                endSelect.value = nodeId;
+                animateSelect(endSelect);
+            } else {
+                startSelect.value = nodeId;
+                endSelect.value = '';
+                animateSelect(startSelect);
+            }
+
+            updateSelectedNodes();
+        }
+
+        function animateSelect(select) {
+            select.style.transform = 'scale(1.05)';
+            setTimeout(() => { select.style.transform = 'scale(1)'; }, 200);
+        }
+
+        function updateSelectedNodes() {
+            const startId = parseInt(document.getElementById('startLocation').value);
+            const endId = parseInt(document.getElementById('endLocation').value);
+
+            document.querySelectorAll('.map-node').forEach(node => {
+                node.classList.remove('selected');
+            });
+
+            if (startId) {
+                const startNode = campus.nodes.get(startId);
+                const startElement = Array.from(document.querySelectorAll('.map-node'))
+                    .find(el => el.style.left === startNode.x + 'px' && el.style.top === startNode.y + 'px');
+                if (startElement) startElement.classList.add('selected');
+            }
+
+            if (endId) {
+                const endNode = campus.nodes.get(endId);
+                const endElement = Array.from(document.querySelectorAll('.map-node'))
+                    .find(el => el.style.left === endNode.x + 'px' && el.style.top === endNode.y + 'px');
+                if (endElement) endElement.classList.add('selected');
+            }
+        }
+
+        // Enhanced route finding with better performance tracking
+        function findRoutes() {
+            const startId = parseInt(document.getElementById('startLocation').value);
+            const endId = parseInt(document.getElementById('endLocation').value);
+            const landmarkFilter = document.getElementById('landmarkFilter').value;
+
+            if (!startId || !endId) {
+                showNotification('Please select both start and end locations', 'warning');
+                return;
+            }
+
+            if (startId === endId) {
+                showNotification('Start and end locations must be different', 'warning');
+                return;
+            }
+
+            const startTime = performance.now();
+            currentRoutes = [];
+
+            // Find primary route with selected algorithm
+            let primaryRoute = null;
+            
+            try {
+                primaryRoute = RoutingAlgorithms.dijkstra(campus, startId, endId, selectedOptimization);
+
+                if (primaryRoute && primaryRoute.found) {
+                    currentRoutes.push({
+                        ...primaryRoute,
+                        algorithm: 'Dijkstra',
+                        landmarks: findLandmarksOnRoute(primaryRoute.path),
+                        efficiency: calculateRouteEfficiency(primaryRoute)
+                    });
+
+                    // Find alternative routes using other algorithms
+                    const algorithms = ['astar', 'greedy'];
+                    algorithms.forEach(algo => {
+                        let altRoute = null;
+                        
+                        try {
+                            switch (algo) {
+                                case 'astar':
+                                    altRoute = RoutingAlgorithms.astar(campus, startId, endId, selectedOptimization);
+                                    break;
+                                case 'greedy':
+                                    altRoute = RoutingAlgorithms.greedy(campus, startId, endId, selectedOptimization);
+                                    break;
+                            }
+
+                            if (altRoute && altRoute.found && !routesAreIdentical(primaryRoute.path, altRoute.path)) {
+                                currentRoutes.push({
+                                    ...altRoute,
+                                    algorithm: algo === 'astar' ? 'A*' : 'Greedy',
+                                    landmarks: findLandmarksOnRoute(altRoute.path),
+                                    efficiency: calculateRouteEfficiency(altRoute)
+                                });
+                            }
+                        } catch (error) {
+                            console.warn(`Algorithm ${algo} failed:`, error);
+                        }
+                    });
+
+                    // Filter by landmark if specified
+                    if (landmarkFilter) {
+                        currentRoutes = currentRoutes.filter(route =>
+                            route.landmarks.includes(landmarkFilter)
+                        );
+                        
+                        if (currentRoutes.length === 0) {
+                            showNotification(`No routes found passing through ${landmarkFilter}`, 'info');
+                        }
+                    }
+
+                    // Sort routes by optimization criteria with secondary sorting
+                    currentRoutes.sort((a, b) => {
+                        const primarySort = a.distance - b.distance;
+                        return primarySort !== 0 ? primarySort : b.efficiency - a.efficiency;
+                    });
+
+                    // Take top 3 routes
+                    currentRoutes = currentRoutes.slice(0, 3);
+                    
+                    if (currentRoutes.length > 0) {
+                        showNotification(`Found ${currentRoutes.length} route${currentRoutes.length > 1 ? 's' : ''}`, 'success');
+                    }
+                } else {
+                    showNotification('No route found between selected locations', 'error');
+                }
+            } catch (error) {
+                console.error('Route finding error:', error);
+                showNotification('An error occurred while finding routes', 'error');
+            }
+
+            const endTime = performance.now();
+            const queryTime = Math.round(endTime - startTime);
+
+            // Update stats with smooth animation
+            updateStatsWithAnimation(queryTime, currentRoutes.length);
+            displayRoutes();
+            
+            if (currentRoutes.length > 0) {
+                highlightRouteOnMap(currentRoutes[0]); // Highlight best route
+            }
+        }
+
+        function calculateRouteEfficiency(route) {
+            // Calculate efficiency based on directness and node count
+            const startNode = campus.nodes.get(route.path[0]);
+            const endNode = campus.nodes.get(route.path[route.path.length - 1]);
+            const directDistance = Math.sqrt(
+                Math.pow(endNode.x - startNode.x, 2) + Math.pow(endNode.y - startNode.y, 2)
+            );
+            return (directDistance / route.distance) * 100;
+        }
+
+        function findLandmarksOnRoute(path) {
+            const landmarks = new Set();
+            path.forEach(nodeId => {
+                const node = campus.nodes.get(nodeId);
+                if (node && node.landmarks) {
+                    node.landmarks.forEach(landmark => landmarks.add(landmark));
+                }
+            });
+            return Array.from(landmarks);
+        }
+
+        function routesAreIdentical(path1, path2) {
+            if (path1.length !== path2.length) return false;
+            return path1.every((node, index) => node === path2[index]);
+        }
+
+        function displayRoutes() {
+            const resultsPanel = document.getElementById('resultsPanel');
+            
+            if (currentRoutes.length === 0) {
+                resultsPanel.innerHTML = '<p style="color: var(--gray); text-align: center; font-style: italic; padding: 1rem;">No routes found</p>';
+                return;
+            }
+
+            resultsPanel.innerHTML = '';
+
+            currentRoutes.forEach((route, index) => {
+                const routeDiv = document.createElement('div');
+                routeDiv.className = 'route-card' + (index === 0 ? ' active' : '');
+                routeDiv.onclick = () => highlightRouteOnMap(route);
+                
+                // Add entrance animation
+                routeDiv.style.opacity = '0';
+                routeDiv.style.transform = 'translateX(-20px)';
+
+                const pathNames = route.path.map(nodeId => campus.nodes.get(nodeId).name);
+                const distanceText = selectedOptimization === 'time'
+                    ? `${Math.round(route.distance)} min`
+                    : `${Math.round(route.distance)}m`;
+
+                const efficiencyText = `${Math.round(route.efficiency)}% efficient`;
+
+                routeDiv.innerHTML = `
+                    <div class="route-header">
+                        <div class="route-title">Route ${index + 1} (${route.algorithm})</div>
+                        <div class="route-stats">${distanceText} • ${efficiencyText}</div>
+                    </div>
+                    <div class="route-path">${pathNames.join(' → ')}</div>
+                    <div class="landmarks">
+                        ${route.landmarks.map(landmark =>
+                            `<span class="landmark-tag">${landmark}</span>`
+                        ).join('')}
+                    </div>
+                `;
+
+                resultsPanel.appendChild(routeDiv);
+
+                // Trigger entrance animation
+                setTimeout(() => {
+                    routeDiv.style.transition = 'all 0.5s ease';
+                    routeDiv.style.opacity = '1';
+                    routeDiv.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+        }
+
+        function highlightRouteOnMap(route) {
+            if (!route) return;
+
+            // Clear previous route highlighting with fade effect
+            const existingPaths = document.querySelectorAll('.map-edge.route-path');
+            existingPaths.forEach(edge => {
+                edge.style.opacity = '0';
+                setTimeout(() => edge.remove(), 300);
+            });
+
+            // Highlight route edges with staggered animation
+            const mapContainer = document.getElementById('campusMap');
+            
+            for (let i = 0; i < route.path.length - 1; i++) {
+                const fromNode = campus.nodes.get(route.path[i]);
+                const toNode = campus.nodes.get(route.path[i + 1]);
+
+                const routeEdge = document.createElement('div');
+                routeEdge.className = 'map-edge route-path';
+                
+                const dx = toNode.x - fromNode.x;
+                const dy = toNode.y - fromNode.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+
+                routeEdge.style.left = fromNode.x + 'px';
+                routeEdge.style.top = fromNode.y + 'px';
+                routeEdge.style.width = length + 'px';
+                routeEdge.style.transform = `rotate(${angle}rad)`;
+                routeEdge.style.zIndex = '10';
+                routeEdge.style.opacity = '0';
+                routeEdge.style.transform += ' scaleX(0)';
+
+                mapContainer.appendChild(routeEdge);
+
+                // Animate path appearance
+                setTimeout(() => {
+                    routeEdge.style.transition = 'all 0.6s ease';
+                    routeEdge.style.opacity = '1';
+                    routeEdge.style.transform = `rotate(${angle}rad) scaleX(1)`;
+                }, i * 100);
+            }
+
+            // Update active route card
+            document.querySelectorAll('.route-card').forEach((card, index) => {
+                if (route === currentRoutes[index]) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        function updateStatsWithAnimation(queryTime, routesFound) {
+            const elements = {
+                queryTime: document.getElementById('queryTime'),
+                routesFound: document.getElementById('routesFound')
+            };
+
+            // Animate query time
+            animateNumber(elements.queryTime, 0, queryTime, 800);
+            animateNumber(elements.routesFound, 0, routesFound, 800);
+        }
+
+        function animateNumber(element, start, end, duration) {
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.round(current);
+            }, 16);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 30px;
+                right: 30px;
+                padding: 15px 25px;
+                border-radius: 12px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                opacity: 0;
+                transform: translateX(100px);
+                transition: all 0.4s ease;
+                box-shadow: var(--shadow-lg);
+            `;
+
+            const colors = {
+                success: '#2ecc71',
+                warning: '#f39c12',
+                error: '#e74c3c',
+                info: '#3498db'
+            };
+
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            // Trigger animation
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Auto remove
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100px)';
+                setTimeout(() => notification.remove(), 400);
+            }, 4000);
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCampusData();
+            initializeUI();
+
+            // Update selected nodes when dropdowns change
+            document.getElementById('startLocation').addEventListener('change', updateSelectedNodes);
+            document.getElementById('endLocation').addEventListener('change', updateSelectedNodes);
+
+            // Update stats
+            document.getElementById('totalNodes').textContent = campus.nodes.size;
+            document.getElementById('totalEdges').textContent =
+                Array.from(campus.edges.values()).reduce((sum, edges) => sum + edges.length, 0) / 2;
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    findRoutes();
+                }
+            });
+
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('Welcome to UG Navigate! Click on map nodes or use dropdowns to select locations.', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
